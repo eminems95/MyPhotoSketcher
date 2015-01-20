@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
 
     Button takePictureButton, savePictureButton;
     ImageView bitmapImageView;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MainActivity extends Activity {
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        imageUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+        //imageUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 
@@ -78,23 +79,12 @@ public class MainActivity extends Activity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if the result is capturing Image
-        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // successfully captured the image
-                // display it in image view
-                previewCapturedImage();
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
+        Bundle extras = data.getExtras();
+
+        Bitmap bitmap = (Bitmap)extras.get("data");
+
+        ImageView bitImageView = (ImageView)findViewById(R.id.imageViewDrawable);
+        bitImageView.setImageBitmap(bitmap);
     }
 
     private void previewCapturedImage() {
@@ -118,39 +108,38 @@ public class MainActivity extends Activity {
     }
 
 
-    public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    private static File getOutputMediaFile(int type) {
-
-        // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                IMAGE_DIRECTORY_NAME);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-                        + IMAGE_DIRECTORY_NAME + " directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
-
-        } else {
-            return null;
-        }
-
-        return mediaFile;
-    }
+//    public Uri getOutputMediaFileUri(int type) {
+//        return Uri.fromFile(getOutputMediaFile(type));
+//    }
+//
+//    private static File getOutputMediaFile(int type) {
+//
+//        // External sdcard location
+//        File mediaStorageDir = new File(
+//                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+//                IMAGE_DIRECTORY_NAME);
+//
+//        // Create the storage directory if it does not exist
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+//                        + IMAGE_DIRECTORY_NAME + " directory");
+//                return null;
+//            }
+//        }
+//
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+//                Locale.getDefault()).format(new Date());
+//        File mediaFile;
+//        if (type == MEDIA_TYPE_IMAGE) {
+//            mediaFile = new File(mediaStorageDir.getPath() + File.separator
+//                    + "IMG_" + timeStamp + ".jpg");
+//
+//        } else {
+//            return null;
+//        }
+//
+//        return mediaFile;
+//    }
 }
