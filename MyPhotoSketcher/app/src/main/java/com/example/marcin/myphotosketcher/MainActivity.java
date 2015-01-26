@@ -49,7 +49,6 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                // capture picture
                  captureImage();
             }
         });
@@ -67,24 +66,27 @@ public class MainActivity extends Activity {
     }
 
     private void captureImage() {
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         //imageUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if the result is capturing Image
-        Bundle extras = data.getExtras();
+        try {
+            Bundle extras = data.getExtras();
 
-        Bitmap bitmap = (Bitmap)extras.get("data");
+            Bitmap bitmap = (Bitmap) extras.get("data");
 
-        ImageView bitImageView = (ImageView)findViewById(R.id.imageViewDrawable);
-        bitImageView.setImageBitmap(bitmap);
+            ImageView bitImageView = (ImageView) findViewById(R.id.imageViewDrawable);
+            bitImageView.setImageBitmap(bitmap);
+        }catch(Exception e) {
+            Toast.makeText(this.getBaseContext(),"Empty photo "+ e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void previewCapturedImage() {
