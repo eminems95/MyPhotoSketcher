@@ -1,9 +1,15 @@
 package com.example.marcin.myphotosketcher;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -20,6 +26,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,6 +47,8 @@ public class MainActivity extends Activity {
     ImageView bitmapImageView;
     Bitmap bitmap;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +56,7 @@ public class MainActivity extends Activity {
 
         //bitmapDrawable = (BitmapDrawable) findViewById(R.id.imageViewDrawable);
         takePictureButton = (Button) findViewById(R.id.takePicture);
+        savePictureButton = (Button) findViewById(R.id.saveImage);
 
         takePictureButton.setOnClickListener(new View.OnClickListener() {
 
@@ -52,6 +65,23 @@ public class MainActivity extends Activity {
                  captureImage();
             }
         });
+
+//        savePictureButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    setSavePictureButton(bitmap);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        });
+    }
+
+    public void setSavePictureButton(Bitmap bitmap) throws IOException {
+
     }
 
     private boolean isDeviceSupportCamera() {
@@ -84,6 +114,7 @@ public class MainActivity extends Activity {
 
             ImageView bitImageView = (ImageView) findViewById(R.id.imageViewDrawable);
             bitImageView.setImageBitmap(bitmap);
+
         }catch(Exception e) {
             Toast.makeText(this.getBaseContext(),"Empty photo "+ e.getMessage(),Toast.LENGTH_SHORT).show();
         }
@@ -103,10 +134,8 @@ public class MainActivity extends Activity {
             final Bitmap bitmap = BitmapFactory.decodeFile(imageUri.getPath(),
                     options);
 
-            bitmapImageView.setImageBitmap(bitmap);
         } catch (NullPointerException e) {
             e.printStackTrace();
-        }
     }
 
 
@@ -144,4 +173,5 @@ public class MainActivity extends Activity {
 //
 //        return mediaFile;
 //    }
+}
 }

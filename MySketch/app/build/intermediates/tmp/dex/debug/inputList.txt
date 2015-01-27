@@ -1,0 +1,2 @@
+C:\Users\Marcin\Documents\MyPhotoSketcher\MySketch\app\build\intermediates\classes\debug
+C:\Users\Marcin\Documents\MyPhotoSketcher\MySketch\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-9cb6158fb198bde74389e7eb8245c63f58b6b892.jar
